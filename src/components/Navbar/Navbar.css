@@ -1,0 +1,33 @@
+.navbar{
+
+    height:60px;
+
+    width:100%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+}
+
+
+.navbar h2{
+
+    font-size:22px;
+
+}
+
+
+.profile{
+
+    font-size:18px;
+
+}
