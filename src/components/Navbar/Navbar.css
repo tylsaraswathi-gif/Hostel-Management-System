@@ -1,33 +1,63 @@
 .navbar{
 
-    height:60px;
+height:60px;
 
-    width:100%;
+display:flex;
 
-    background:#2563eb;
+justify-content:space-between;
 
-    color:white;
+align-items:center;
 
-    display:flex;
+padding:0 25px;
 
-    align-items:center;
+background:#2563eb;
 
-    justify-content:space-between;
-
-    padding:0 30px;
+color:white;
 
 }
 
 
-.navbar h2{
 
-    font-size:22px;
+.navbar-right{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
 
 }
 
 
-.profile{
 
-    font-size:18px;
+.welcome{
+
+font-size:16px;
+
+}
+
+
+
+.logout-btn{
+
+padding:8px 15px;
+
+border:none;
+
+border-radius:5px;
+
+cursor:pointer;
+
+background:white;
+
+color:#2563eb;
+
+}
+
+
+
+.logout-btn:hover{
+
+opacity:0.8;
 
 }

@@ -1,85 +1,77 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./Students.css";
 
 function Students() {
-  const navigate = useNavigate();
-
-  const [students, setStudents] = useState(
-    JSON.parse(localStorage.getItem("students")) || []
-  );
+  const [students, setStudents] = useState([
+    {
+      id: 1,
+      name: "yamini",
+      email: "tylsaraswathi@gmail.com",
+      phone: "7989019971",
+      branch: "CSE-DS",
+    },
+  ]);
 
   const deleteStudent = (id) => {
-    const updatedStudents = students.filter(
-      (student) => student.id !== id
-    );
-
-    setStudents(updatedStudents);
-
-    localStorage.setItem(
-      "students",
-      JSON.stringify(updatedStudents)
-    );
-
-    alert("Student deleted successfully");
-  };
-
-  const editStudent = (id) => {
-    navigate(`/register/${id}`);
+    setStudents(students.filter((student) => student.id !== id));
   };
 
   return (
-    <div>
-      <h1>Student Management</h1>
+    <div className="students-container">
+      <h2>Student Details</h2>
 
-      <table>
+      <input
+        type="text"
+        placeholder="Search Student"
+        className="search-box"
+      />
+
+      <table className="student-table">
         <thead>
           <tr>
+            <th>S.No</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Course</th>
-            <th>Year</th>
-            <th>Action</th>
+            <th>Branch</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {students.length > 0 ? (
-            students.map((student) => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.phone}</td>
-                <td>{student.course}</td>
-                <td>{student.year}</td>
+          {students.map((student, index) => (
+            <tr key={student.id}>
+              <td>{index + 1}</td>
+              <td>{student.name}</td>
+              <td>{student.email}</td>
+              <td>{student.phone}</td>
+              <td>{student.branch}</td>
+              <td>
+  <button
+    className="view-btn"
+    onClick={() => alert(`
+Name: ${student.name}
+Email: ${student.email}
+Phone: ${student.phone}
+Branch: ${student.branch}
+`)}
+  >
+    View
+  </button>
 
-                <td>
-                  <button
-                    onClick={() => navigate(`/student/${student.id}`)}
-                  >
-                    View
-                  </button>
+  <button className="edit-btn">
+    Edit
+  </button>
 
-                  <button
-                    onClick={() => editStudent(student.id)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => deleteStudent(student.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="6">No Students Registered</td>
+  <button
+    className="delete-btn"
+    onClick={() => deleteStudent(student.id)}
+  >
+    Delete
+  </button>
+</td> 
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     </div>
