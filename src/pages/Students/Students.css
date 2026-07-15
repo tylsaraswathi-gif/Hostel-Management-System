@@ -1,94 +1,60 @@
-.students-container {
-    width: 95%;
-    margin: 30px auto;
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.students-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1e3a8a;
+.top-bar h2{
+    margin:0;
 }
 
-.search-box {
-    width: 300px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #bbb;
-    border-radius: 6px;
-    font-size: 15px;
+.top-bar p{
+    margin-top:5px;
+    color:#666;
 }
 
-.student-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.add-student-btn{
+    background:#0d6efd;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:15px;
 }
 
-.student-table th,
-.student-table td {
-    border: 1px solid #ddd;
-    padding: 14px;
-    text-align: center;
+.add-student-btn:hover{
+    background:#0b5ed7;
 }
 
-.student-table th {
-    background: #2563eb;
-    color: white;
-    font-size: 17px;
+.search-container{
+    margin-bottom:20px;
 }
 
-.student-table tr:nth-child(even) {
-    background: #f8fafc;
+.search-box{
+    width:320px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
 }
 
-.student-table tr:hover {
-    background: #eef4ff;
+.save-btn{
+    background:#198754;
+    color:#fff;
+    border:none;
+    padding:6px 12px;
+    margin-right:5px;
+    border-radius:5px;
+    cursor:pointer;
 }
 
-/* Buttons */
-
-.view-btn,
-.edit-btn,
-.delete-btn {
-    border: none;
-    padding: 8px 16px;
-    margin: 3px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-/* View */
-
-.view-btn {
-    background: #0ea5e9;
-}
-
-.view-btn:hover {
-    background: #0284c7;
-}
-
-/* Edit */
-
-.edit-btn {
-    background: #f59e0b;
-}
-
-.edit-btn:hover {
-    background: #d97706;
-}
-
-/* Delete */
-
-.delete-btn {
-    background: #dc2626;
-}
-
-.delete-btn:hover {
-    background: #b91c1c;
+.cancel-btn{
+    background:#6c757d;
+    color:#fff;
+    border:none;
+    padding:6px 12px;
+    border-radius:5px;
+    cursor:pointer;
 }

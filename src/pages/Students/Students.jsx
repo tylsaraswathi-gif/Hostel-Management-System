@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Students.css";
 
 function Students() {
@@ -25,8 +26,10 @@ function Students() {
   };
 
   const deleteStudent = (id) => {
-    const updated = students.filter((student) => student.id !== id);
-    saveToLocalStorage(updated);
+    if (window.confirm("Are you sure you want to delete this student?")) {
+      const updated = students.filter((student) => student.id !== id);
+      saveToLocalStorage(updated);
+    }
   };
 
   const editStudent = (student) => {
@@ -52,23 +55,39 @@ function Students() {
   };
 
   const filteredStudents = students.filter((student) =>
-    (student.studentName || "")
+    `${student.studentName} ${student.email} ${student.phone} ${student.branch}`
       .toLowerCase()
-      .includes((search || "").toLowerCase())
+      .includes(search.toLowerCase())
   );
 
   return (
     <div className="students-container">
-      <h2>Student Details</h2>
+      {/* Header */}
+      <div className="top-bar">
+        <div>
+          <h2>Student Details</h2>
+          <p>Manage all registered students</p>
+        </div>
 
-      <input
-        type="text"
-        placeholder="Search Student"
-        className="search-box"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        <Link to="/register">
+          <button className="add-student-btn">
+            + Add Student
+          </button>
+        </Link>
+      </div>
 
+      {/* Search Box */}
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="🔍 Search"
+          className="search-box"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {/* Table */}
       <table className="student-table">
         <thead>
           <tr>
@@ -153,9 +172,21 @@ function Students() {
 
                 <td>
                   {editingId === student.id ? (
-                    <button className="view-btn" onClick={saveStudent}>
-                      Save
-                    </button>
+                    <>
+                      <button
+                        className="save-btn"
+                        onClick={saveStudent}
+                      >
+                        Save
+                      </button>
+
+                      <button
+                        className="cancel-btn"
+                        onClick={() => setEditingId(null)}
+                      >
+                        Cancel
+                      </button>
+                    </>
                   ) : (
                     <>
                       <button
@@ -163,9 +194,9 @@ function Students() {
                         onClick={() =>
                           alert(
                             `Name: ${student.studentName}
-Email: ${student.email}
-Phone: ${student.phone}
-Branch: ${student.branch}`
+                             Email: ${student.email}
+                             Phone: ${student.phone}
+                             Branch: ${student.branch}`
                           )
                         }
                       >
@@ -192,7 +223,12 @@ Branch: ${student.branch}`
             ))
           ) : (
             <tr>
-              <td colSpan="6">No students found.</td>
+              <td
+                colSpan="6"
+                style={{ textAlign: "center", padding: "20px" }}
+              >
+                No students found.
+              </td>
             </tr>
           )}
         </tbody>
