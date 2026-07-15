@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,39 +12,36 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const students = JSON.parse(localStorage.getItem("students")) || [];
+    localStorage.setItem("adminLoggedIn", "true");
 
-    const student = students.find(
-      (stu) => stu.email === email && stu.password === password
+    localStorage.setItem(
+      "loggedInUser",
+      JSON.stringify({
+        email,
+      })
     );
 
-    if (student) {
-      localStorage.setItem("adminLoggedIn", JSON.stringify(true));
-      localStorage.setItem("loggedInStudent", JSON.stringify(student));
+    alert("Login Successful");
 
-      alert("Login Successful");
-      navigate("/");
-    } else {
-      alert("Invalid Email or Password");
-    }
+    navigate("/dashboard");
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
-        <h2>Login</h2>
+        <h2>Hostel Management Login</h2>
 
         <input
           type="email"
-          placeholder="Email Address"
+          placeholder="Enter Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        /><br/><br/>
+        />
 
         <input
           type={showPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -57,14 +54,21 @@ function Login() {
             checked={showPassword}
             onChange={() => setShowPassword(!showPassword)}
           />
-          <label htmlFor="showPassword">Show Password</label>
+
+          <label htmlFor="showPassword">
+            Show Password
+          </label>
         </div>
 
-        <button type="submit">Login</button><br/><br/>
+        <button type="submit">
+          Login
+        </button>
 
         <p className="register-link">
           Don't have an account?{" "}
-          <Link to="/register">Register</Link>
+          <Link to="/register">
+            Register
+          </Link>
         </p>
       </form>
     </div>

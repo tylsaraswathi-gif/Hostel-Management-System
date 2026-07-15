@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Login from "./pages/Login/Login";
 import Layout from "./components/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Students from "./pages/Students/Students";
@@ -8,17 +8,20 @@ import Rooms from "./pages/Rooms/Rooms";
 import Fees from "./pages/Fees/Fees";
 import Visitors from "./pages/Visitors/Visitors";
 import Complaints from "./pages/Complaints/Complaints";
+import EditStudent from "./pages/EditStudent/EditStudent";
 
 function App() {
   return (
     
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="login" element={<Login />} />
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="students" element={<Students />} />
           <Route path="register" element={<Register />} />
           <Route path="rooms" element={<Rooms />} />
+          <Route path="editstudent/:id" element={<EditStudent />} />
           <Route path="fees" element={<Fees />} />
           <Route path="visitors" element={<Visitors />} />
           <Route path="complaints" element={<Complaints />} />
