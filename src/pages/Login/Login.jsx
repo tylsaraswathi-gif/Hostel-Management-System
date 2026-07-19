@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../../api";
 import "./Login.css";
 
 function Login() {
@@ -9,31 +10,42 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    localStorage.setItem("adminLoggedIn", "true");
-
-    localStorage.setItem(
-      "loggedInUser",
-      JSON.stringify({
+    try {
+      const response = await api.post("/students/login", {
         email,
-      })
-    );
+        password,
+      });
 
-    alert("Login Successful");
+      localStorage.setItem(
+        "loggedInStudent",
+        JSON.stringify(response.data.student)
+      );
 
-    navigate("/dashboard");
+      localStorage.setItem("adminLoggedIn", JSON.stringify(true));
+
+      alert(response.data.message);
+
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Unable to connect to the server");
+      }
+    }
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
-        <h2>Hostel Management Login</h2>
+        <h2>Login</h2>
 
         <input
           type="email"
-          placeholder="Enter Email"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -41,7 +53,7 @@ function Login() {
 
         <input
           type={showPassword ? "text" : "password"}
-          placeholder="Enter Password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -50,25 +62,16 @@ function Login() {
         <div className="show-password">
           <input
             type="checkbox"
-            id="showPassword"
             checked={showPassword}
             onChange={() => setShowPassword(!showPassword)}
           />
-
-          <label htmlFor="showPassword">
-            Show Password
-          </label>
+          <label>Show Password</label>
         </div>
 
-        <button type="submit">
-          Login
-        </button>
+        <button type="submit">Login</button>
 
-        <p className="register-link">
-          Don't have an account?{" "}
-          <Link to="/register">
-            Register
-          </Link>
+        <p>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../api";
 import "./Register.css";
 
 function Register() {
@@ -9,10 +10,11 @@ function Register() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [branch, setBranch] = useState("");
+  const [roomNo, setRoomNo] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const adminLoggedIn =
@@ -24,33 +26,37 @@ function Register() {
       return;
     }
 
-    const students = JSON.parse(localStorage.getItem("students")) || [];
-
-    const emailExists = students.some(
-      (student) => student.email === email
-    );
-
-    if (emailExists) {
-      alert("Email already exists");
-      return;
-    }
-
-    const newStudent = {
-      id: Date.now(),
-      studentName,
+    const studentData = {
+      name: studentName,
       email,
       phone,
       branch,
+      roomNo,
       password,
     };
 
-    students.push(newStudent);
+    try {
+      const response = await api.post("/students", studentData);
 
-    localStorage.setItem("students", JSON.stringify(students));
+      alert(response.data.message);
 
-    alert("Student Registered Successfully");
+      setStudentName("");
+      setEmail("");
+      setPhone("");
+      setBranch("");
+      setRoomNo("");
+      setPassword("");
 
-    navigate("/students");
+      navigate("/students");
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Unable to connect to the server.");
+      }
+    }
   };
 
   return (
@@ -93,6 +99,14 @@ function Register() {
         />
 
         <input
+          type="text"
+          placeholder="Room Number"
+          value={roomNo}
+          onChange={(e) => setRoomNo(e.target.value)}
+          required
+        />
+
+        <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
           value={password}
@@ -112,7 +126,9 @@ function Register() {
           <label htmlFor="showPassword">Show Password</label>
         </div>
 
-        <button type="submit">Register Student</button>
+        <button type="submit">
+          Register Student
+        </button>
 
         <p className="login-link">
           Already have an account?{" "}
