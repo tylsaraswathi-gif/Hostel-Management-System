@@ -1,0 +1,102 @@
+.student-details-container {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-details-container h2 {
+  text-align: center;
+  color: #0d6efd;
+  margin-bottom: 25px;
+}
+
+.student-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.student-card p {
+  font-size: 16px;
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.student-card p strong {
+  color: #0d6efd;
+  display: inline-block;
+  width: 140px;
+}
+
+.student-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.back-btn,
+.edit-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.back-btn {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
+}
+
+.edit-btn {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.error {
+  color: #dc3545;
+}
+
+@media (max-width: 600px) {
+  .student-details-container {
+    margin: 15px;
+    padding: 20px;
+  }
+
+  .student-card p strong {
+    width: 100px;
+  }
+
+  .student-actions {
+    flex-direction: column;
+  }
+
+  .back-btn,
+  .edit-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

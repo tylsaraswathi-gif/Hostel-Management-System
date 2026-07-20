@@ -11,32 +11,23 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [branch, setBranch] = useState("");
   const [roomNo, setRoomNo] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+
+
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const adminLoggedIn =
-      JSON.parse(localStorage.getItem("adminLoggedIn")) || false;
-
-    if (!adminLoggedIn) {
-      alert("Please login as Admin");
-      navigate("/login");
-      return;
-    }
-
-    const studentData = {
-      name: studentName,
-      email,
-      phone,
-      branch,
-      roomNo,
-      password,
-    };
+    setLoading(true);
 
     try {
-      const response = await api.post("/students", studentData);
+       const response = await api.post("/students", {
+            name: studentName,
+            email,
+            phone,
+            branch,
+            roomNo,
+});
 
       alert(response.data.message);
 
@@ -45,7 +36,7 @@ function Register() {
       setPhone("");
       setBranch("");
       setRoomNo("");
-      setPassword("");
+    
 
       navigate("/students");
     } catch (error) {
@@ -54,8 +45,10 @@ function Register() {
       if (error.response) {
         alert(error.response.data.message);
       } else {
-        alert("Unable to connect to the server.");
+        alert("Unable to connect to server.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,24 +72,29 @@ function Register() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        
 
         <input
-          type="tel"
+          type="text"
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           pattern="[0-9]{10}"
-          title="Phone number must contain exactly 10 digits"
           required
         />
 
-        <input
-          type="text"
-          placeholder="Branch"
+        <select
           value={branch}
           onChange={(e) => setBranch(e.target.value)}
           required
-        />
+        >
+          <option value="">Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="CSM">CSM</option>
+          <option value="CSE-AI">CSE-AI</option>
+          <option value="CIVIL">CIVIL</option>
+          <option value="DS">DS</option>
+        </select>
 
         <input
           type="text"
@@ -106,28 +104,10 @@ function Register() {
           required
         />
 
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
-          title="Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character."
-          required
-        />
+        
 
-        <div className="show-password">
-          <input
-            type="checkbox"
-            id="showPassword"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-          />
-          <label htmlFor="showPassword">Show Password</label>
-        </div>
-
-        <button type="submit">
-          Register Student
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register Student"}
         </button>
 
         <p className="login-link">

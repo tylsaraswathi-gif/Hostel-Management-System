@@ -1,60 +1,134 @@
-.top-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+.students-container {
+  width: 100%;
+  padding: 20px;
 }
 
-.top-bar h2{
-    margin:0;
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.top-bar p{
-    margin-top:5px;
-    color:#666;
+.students-header h2 {
+  color: #0d6efd;
+  margin: 0;
 }
 
-.add-student-btn{
-    background:#0d6efd;
-    color:#fff;
-    border:none;
-    padding:10px 18px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:15px;
+.search-box {
+  padding: 10px 14px;
+  width: 280px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 15px;
 }
 
-.add-student-btn:hover{
-    background:#0b5ed7;
+.search-box:focus {
+  border-color: #0d6efd;
 }
 
-.search-container{
-    margin-bottom:20px;
+.add-btn {
+  background: #0d6efd;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
-.search-box{
-    width:320px;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size:15px;
+.add-btn:hover {
+  background: #084298;
 }
 
-.save-btn{
-    background:#198754;
-    color:#fff;
-    border:none;
-    padding:6px 12px;
-    margin-right:5px;
-    border-radius:5px;
-    cursor:pointer;
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.cancel-btn{
-    background:#6c757d;
-    color:#fff;
-    border:none;
-    padding:6px 12px;
-    border-radius:5px;
-    cursor:pointer;
+.student-table th,
+.student-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.student-table th {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.student-table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.student-table tr:hover {
+  background: #eef4ff;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.view-btn {
+  background: #198754;
+}
+
+.view-btn:hover {
+  background: #146c43;
+}
+
+.edit-btn {
+  background: #ffc107;
+  color: black;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+}
+
+.delete-btn {
+  background: #dc3545;
+}
+
+.delete-btn:hover {
+  background: #bb2d3b;
+}
+
+.loading,
+.no-data {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .students-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .student-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

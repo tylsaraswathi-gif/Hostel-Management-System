@@ -1,238 +1,130 @@
-import {
-useState,
-useEffect
-} from "react";
-
-
-import {
-useParams,
-useNavigate
-} from "react-router-dom";
-
-
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../api";
 import "./EditStudent.css";
 
+function EditStudent() {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
+  const [studentName, setStudentName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [branch, setBranch] = useState("");
+  const [cgpa, setCGPA] = useState("");
+  const [loading, setLoading] = useState(true);
 
-function EditStudent(){
+  useEffect(() => {
+    fetchStudent();
+  }, []);
 
+  const fetchStudent = async () => {
+    try {
+      const response = await api.get(`/students/${id}`);
 
-const {id}=useParams();
+      const student = response.data.student;
 
-const navigate=useNavigate();
+      setStudentName(student.studentName);
+      setEmail(student.email);
+      setPhone(student.phone);
+      setBranch(student.branch);
+      setCGPA(student.cgpa);
+    } catch (error) {
+      console.error(error);
+      alert("Student not found");
+      navigate("/students");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const updateStudent = async (e) => {
+    e.preventDefault();
 
+    try {
+      await api.put(`/students/${id}`, {
+        studentName,
+        email,
+        phone,
+        branch,
+        cgpa,
+      });
 
-const [name,setName]=useState("");
+      alert("Student Updated Successfully");
+      navigate("/students");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update student");
+    }
+  };
 
-const [email,setEmail]=useState("");
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
-const [phone,setPhone]=useState("");
+  return (
+    <div className="edit-container">
 
-const [branch,setBranch]=useState("");
+      <h2>Edit Student</h2>
 
+      <form onSubmit={updateStudent}>
 
+        <input
+          type="text"
+          value={studentName}
+          placeholder="Student Name"
+          onChange={(e) => setStudentName(e.target.value)}
+          required
+        />
 
+        <input
+          type="email"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
+        <input
+          type="text"
+          value={phone}
+          placeholder="Phone"
+          onChange={(e) => setPhone(e.target.value)}
+          required
+        />
 
-useEffect(()=>{
+        <select
+          value={branch}
+          onChange={(e) => setBranch(e.target.value)}
+          required
+        >
+          <option value="">Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="CSM">CSM</option>
+          <option value="CSE-AI">CSE-AI</option>
+          <option value="CIVIL">CIVIL</option>
+          <option value="DS">DS</option>
+        </select>
 
+        <input
+          type="number"
+          value={cgpa}
+          placeholder="CGPA"
+          step="0.01"
+          min="0"
+          max="10"
+          onChange={(e) => setCGPA(e.target.value)}
+          required
+        />
 
-const students = JSON.parse(
+        <button type="submit">
+          Update Student
+        </button>
 
-localStorage.getItem("students")
+      </form>
 
-) || [];
-
-
-
-const student = students.find(
-
-(s)=>
-
-s.id.toString() === id
-
-);
-
-
-
-if(student){
-
-
-setName(student.name);
-
-setEmail(student.email);
-
-setPhone(student.phone);
-
-setBranch(student.branch);
-
-
+    </div>
+  );
 }
-
-
-},[id]);
-
-
-
-
-
-
-
-const updateStudent=(e)=>{
-
-
-e.preventDefault();
-
-
-
-let students = JSON.parse(
-
-localStorage.getItem("students")
-
-) || [];
-
-
-
-
-const updatedStudents = students.map(
-
-(student)=>{
-
-
-if(student.id.toString()===id){
-
-
-return {
-
-
-...student,
-
-name,
-
-email,
-
-phone,
-
-branch
-
-
-};
-
-
-}
-
-
-return student;
-
-
-}
-
-);
-
-
-
-
-localStorage.setItem(
-
-"students",
-
-JSON.stringify(updatedStudents)
-
-);
-
-
-
-alert("Student Updated Successfully");
-
-
-navigate("/students");
-
-
-};
-
-
-
-
-
-return (
-
-<div className="edit-container">
-
-
-<h2>
-Edit Student
-</h2>
-
-
-<form onSubmit={updateStudent}>
-
-
-<input
-
-value={name}
-
-placeholder="Name"
-
-onChange={(e)=>setName(e.target.value)}
-
-/>
-
-
-
-<input
-
-value={email}
-
-placeholder="Email"
-
-onChange={(e)=>setEmail(e.target.value)}
-
-/>
-
-
-
-<input
-
-value={phone}
-
-placeholder="Phone"
-
-onChange={(e)=>setPhone(e.target.value)}
-
-/>
-
-
-
-<input
-
-value={branch}
-
-placeholder="Branch"
-
-onChange={(e)=>setBranch(e.target.value)}
-
-/>
-
-
-
-<button type="submit">
-
-Update Student
-
-</button>
-
-
-
-</form>
-
-
-</div>
-
-);
-
-
-}
-
 
 export default EditStudent;
