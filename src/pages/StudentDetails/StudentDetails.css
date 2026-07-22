@@ -17,9 +17,22 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  align-items: center;
+}
+
+/* Profile Image */
+.student-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #0d6efd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
 }
 
 .student-card p {
+  width: 100%;
   font-size: 16px;
   margin: 0;
   padding: 10px;
@@ -84,6 +97,11 @@
   .student-details-container {
     margin: 15px;
     padding: 20px;
+  }
+
+  .student-image {
+    width: 120px;
+    height: 120px;
   }
 
   .student-card p strong {
