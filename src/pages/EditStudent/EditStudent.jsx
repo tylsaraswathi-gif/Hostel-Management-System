@@ -126,17 +126,7 @@ function EditStudent() {
           <option value="DS">DS</option>
         </select>
 
-        <input
-          type="number"
-          placeholder="CGPA"
-          value={cgpa}
-          step="0.01"
-          min="0"
-          max="10"
-          onChange={(e) => setCGPA(e.target.value)}
-          required
-        />
-
+       
         <button type="submit" disabled={updating}>
           {updating ? "Updating..." : "Update Student"}
         </button>
