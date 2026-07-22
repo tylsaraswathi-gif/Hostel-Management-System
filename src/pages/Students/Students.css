@@ -1,134 +1,213 @@
+/* ===========================
+   Students Container
+=========================== */
+
 .students-container {
-  width: 100%;
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
   padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
+/* ===========================
+   Header
+=========================== */
 
 .students-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 .students-header h2 {
-  color: #0d6efd;
   margin: 0;
+  color: #333;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.search-box {
-  padding: 10px 14px;
-  width: 280px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+/* ===========================
+   Add Student Button
+=========================== */
+
+.add-student-btn {
+  background: #007bff;
+  color: white;
+  border: none;
   outline: none;
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-student-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* ===========================
+   Search Box
+=========================== */
+
+.search-box {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 15px;
 }
 
-.search-box:focus {
-  border-color: #0d6efd;
+/* ===========================
+   Sorting
+=========================== */
+
+.sort-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.add-btn {
-  background: #0d6efd;
-  color: white;
-  padding: 10px 18px;
-  border: none;
+.sort-section select {
+  padding: 10px;
   border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 500;
-  transition: 0.3s;
+  border: 1px solid #ccc;
 }
 
-.add-btn:hover {
-  background: #084298;
-}
+/* ===========================
+   Table
+=========================== */
 
-.student-table {
+.students-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.student-table th,
-.student-table td {
+.students-table th {
+  background: #007bff;
+  color: white;
   padding: 12px;
-  border: 1px solid #ddd;
   text-align: center;
 }
 
-.student-table th {
-  background: #0d6efd;
-  color: #fff;
+.students-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
-.student-table tr:nth-child(even) {
+.students-table tr:nth-child(even) {
   background: #f8f9fa;
 }
 
-.student-table tr:hover {
-  background: #eef4ff;
+.students-table tr:hover {
+  background: #eef5ff;
 }
 
-.action-btn {
+/* ===========================
+   Buttons
+=========================== */
+
+.view-btn,
+.students-table button {
   padding: 6px 12px;
   margin: 2px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  text-decoration: none;
   color: white;
-  transition: 0.3s;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .view-btn {
-  background: #198754;
+  background: #17a2b8;
 }
 
 .view-btn:hover {
-  background: #146c43;
+  background: #138496;
 }
 
-.edit-btn {
+.students-table button {
   background: #ffc107;
   color: black;
 }
 
-.edit-btn:hover {
+.students-table button:hover {
   background: #e0a800;
 }
 
 .delete-btn {
-  background: #dc3545;
+  background: #dc3545 !important;
+  color: white !important;
 }
 
 .delete-btn:hover {
-  background: #bb2d3b;
+  background: #c82333 !important;
 }
 
-.loading,
-.no-data {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 18px;
-  color: #666;
+/* ===========================
+   Pagination
+=========================== */
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
+
+.pagination button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: 600;
+}
+
+/* ===========================
+   Responsive
+=========================== */
 
 @media (max-width: 768px) {
   .students-header {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .sort-section {
+    flex-direction: column;
   }
 
   .search-box {
     width: 100%;
   }
 
-  .student-table {
+  .students-table {
     display: block;
     overflow-x: auto;
-    white-space: nowrap;
   }
 }
