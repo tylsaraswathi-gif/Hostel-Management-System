@@ -59,7 +59,17 @@ function Students() {
 
   return (
     <div className="students-container">
-      <h2>Registered Students</h2>
+
+      {/* Header */}
+      <div className="students-header">
+        <h2>Registered Students</h2>
+
+        <Link to="/register">
+          <button className="add-student-btn">
+            ➕ Add Student
+          </button>
+        </Link>
+      </div>
 
       {/* Search */}
       <input
