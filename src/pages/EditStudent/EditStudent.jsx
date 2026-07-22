@@ -12,7 +12,10 @@ function EditStudent() {
   const [phone, setPhone] = useState("");
   const [branch, setBranch] = useState("");
   const [cgpa, setCGPA] = useState("");
+
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     fetchStudent();
@@ -24,11 +27,12 @@ function EditStudent() {
 
       const student = response.data.student;
 
-      setStudentName(student.studentName);
-      setEmail(student.email);
-      setPhone(student.phone);
-      setBranch(student.branch);
-      setCGPA(student.cgpa);
+      // Supports both name and studentName
+      setStudentName(student.name || student.studentName || "");
+      setEmail(student.email || "");
+      setPhone(student.phone || "");
+      setBranch(student.branch || "");
+      setCGPA(student.cgpa || "");
     } catch (error) {
       console.error(error);
       alert("Student not found");
@@ -41,54 +45,70 @@ function EditStudent() {
   const updateStudent = async (e) => {
     e.preventDefault();
 
+    setUpdating(true);
+    setSuccess(false);
+
     try {
       await api.put(`/students/${id}`, {
-        studentName,
+        name: studentName,
         email,
         phone,
         branch,
         cgpa,
       });
 
-      alert("Student Updated Successfully");
-      navigate("/students");
+      setSuccess(true);
+
+      setTimeout(() => {
+        navigate("/students");
+      }, 1500);
     } catch (error) {
       console.error(error);
       alert("Failed to update student");
+    } finally {
+      setUpdating(false);
     }
   };
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <div className="edit-container">
+        <h2>Loading...</h2>
+      </div>
+    );
   }
 
   return (
     <div className="edit-container">
-
       <h2>Edit Student</h2>
 
-      <form onSubmit={updateStudent}>
+      {success && (
+        <div className="success-message">
+          ✅ Student Updated Successfully
+        </div>
+      )}
 
+      <form onSubmit={updateStudent}>
         <input
           type="text"
-          value={studentName}
           placeholder="Student Name"
+          value={studentName}
           onChange={(e) => setStudentName(e.target.value)}
           required
         />
 
         <input
           type="email"
-          value={email}
           placeholder="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
         <input
           type="text"
-          value={phone}
           placeholder="Phone"
+          value={phone}
           onChange={(e) => setPhone(e.target.value)}
           required
         />
@@ -108,8 +128,8 @@ function EditStudent() {
 
         <input
           type="number"
-          value={cgpa}
           placeholder="CGPA"
+          value={cgpa}
           step="0.01"
           min="0"
           max="10"
@@ -117,12 +137,10 @@ function EditStudent() {
           required
         />
 
-        <button type="submit">
-          Update Student
+        <button type="submit" disabled={updating}>
+          {updating ? "Updating..." : "Update Student"}
         </button>
-
       </form>
-
     </div>
   );
 }
