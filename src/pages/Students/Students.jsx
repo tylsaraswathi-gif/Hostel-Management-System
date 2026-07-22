@@ -60,7 +60,6 @@ function Students() {
   return (
     <div className="students-container">
 
-      {/* Header */}
       <div className="students-header">
         <h2>Registered Students</h2>
 
@@ -71,19 +70,17 @@ function Students() {
         </Link>
       </div>
 
-      {/* Search */}
       <input
         type="text"
+        className="search-box"
         placeholder="Search Student..."
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
           setPage(1);
         }}
-        className="search-box"
       />
 
-      {/* Sorting */}
       <div className="sort-section">
         <select
           value={sortBy}
@@ -104,10 +101,7 @@ function Students() {
         </select>
       </div>
 
-      {/* Loading */}
       {loading && <h3>Loading Students...</h3>}
-
-      {/* Error */}
       {error && <h3>{error}</h3>}
 
       {!loading && !error && (
@@ -115,6 +109,8 @@ function Students() {
           <table className="students-table">
             <thead>
               <tr>
+                <th>Sl No</th>
+                <th>Profile</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -126,12 +122,34 @@ function Students() {
 
             <tbody>
               {students.length > 0 ? (
-                students.map((student) => (
+                students.map((student, index) => (
                   <tr key={student._id}>
+                    <td>{(page - 1) * limit + index + 1}</td>
+
+                    <td>
+                        {student.image ? (
+                          <img
+                            src={`http://localhost:5000/uploads/${student.image}`}
+                            alt={student.studentName || student.name}
+                            className="profile-image"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "/default-avatar.png";
+                            }}
+                          />
+                        ) : (
+                          <span>No Image</span>
+                        )}
+                      </td>
+
                     <td>{student.studentName || student.name}</td>
+
                     <td>{student.email}</td>
+
                     <td>{student.phone}</td>
+
                     <td>{student.branch}</td>
+
                     <td>{student.roomNo}</td>
 
                     <td>
@@ -161,13 +179,12 @@ function Students() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No students found.</td>
+                  <td colSpan="8">No students found.</td>
                 </tr>
               )}
             </tbody>
           </table>
 
-          {/* Pagination */}
           <div className="pagination">
             <button
               disabled={page === 1}
