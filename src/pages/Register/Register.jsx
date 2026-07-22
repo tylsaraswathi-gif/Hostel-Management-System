@@ -11,7 +11,7 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [branch, setBranch] = useState("");
   const [roomNo, setRoomNo] = useState("");
-
+  const [image, setImage] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -21,13 +21,24 @@ function Register() {
     setLoading(true);
 
     try {
-       const response = await api.post("/students", {
-            name: studentName,
-            email,
-            phone,
-            branch,
-            roomNo,
-});
+      const formData = new FormData();
+
+      // Match the backend field names
+      formData.append("studentName", studentName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("branch", branch);
+      formData.append("roomNo", roomNo);
+
+      if (image) {
+        formData.append("image", image);
+      }
+
+      const response = await api.post("/students", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       alert(response.data.message);
 
@@ -36,7 +47,7 @@ function Register() {
       setPhone("");
       setBranch("");
       setRoomNo("");
-    
+      setImage(null);
 
       navigate("/students");
     } catch (error) {
@@ -72,7 +83,6 @@ function Register() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        
 
         <input
           type="text"
@@ -104,15 +114,18 @@ function Register() {
           required
         />
 
-        
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
 
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register Student"}
         </button>
 
         <p className="login-link">
-          Already have an account?{" "}
-          <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
     </div>
