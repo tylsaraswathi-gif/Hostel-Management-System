@@ -9,43 +9,51 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+    setError("");
+
     try {
-      const response = await api.post("/students/login", {
+      const response = await api.post("/auth/login", {
         email,
         password,
       });
 
+      // Save logged in user
       localStorage.setItem(
-        "loggedInStudent",
-        JSON.stringify(response.data.student)
+        "loggedInUser",
+        JSON.stringify(response.data.user)
       );
 
-      localStorage.setItem("adminLoggedIn", JSON.stringify(true));
+      localStorage.setItem("isLoggedIn", "true");
 
       alert(response.data.message);
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
-      if (error.response) {
-        alert(error.response.data.message);
-      } else {
-        alert("Unable to connect to the server");
-      }
+      const message =
+        error.response?.data?.message || "Login failed";
+
+      setError(message);
+      alert(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
-        <h2>Login</h2>
+        <h2>User Login</h2>
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -53,7 +61,7 @@ function Login() {
 
         <input
           type={showPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -68,10 +76,15 @@ function Login() {
           <label>Show Password</label>
         </div>
 
-        <button type="submit">Login</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
+
+        <p className="register-text">
+          Don't have an account?{" "}
+          <Link to="/auth-register">Register</Link>
         </p>
       </form>
     </div>
