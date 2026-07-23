@@ -10,7 +10,6 @@ import Login from "./pages/Login/Login";
 
 // Authentication Module
 import AuthRegister from "./pages/AuthRegister/AuthRegister";
-import AuthLogin from "./pages/AuthLogin/AuthLogin";
 
 import Students from "./pages/Students/Students";
 import StudentDetails from "./pages/StudentDetails/StudentDetails";
@@ -24,26 +23,21 @@ import NotFound from "./pages/NotFound/NotFound";
 function App() {
   return (
     <Routes>
-
       {/* Student Login */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/auth-login" element={<Login />} />
 
       {/* Authentication */}
       <Route path="/auth-register" element={<AuthRegister />} />
-      <Route path="/auth-login" element={<AuthLogin />} />
-
+      
       {/* Main Layout */}
       <Route path="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
 
-        {/* Student Management */}
-        <Route path="register" element={<Register />} />
         <Route path="students" element={<Students />} />
         <Route path="students/:id" element={<StudentDetails />} />
         <Route path="students/edit/:id" element={<EditStudent />} />
 
-        {/* Other Modules */}
         <Route path="complaints" element={<Complaints />} />
         <Route path="fees" element={<Fees />} />
         <Route path="rooms" element={<Rooms />} />
@@ -52,7 +46,6 @@ function App() {
 
       {/* 404 */}
       <Route path="*" element={<NotFound />} />
-
     </Routes>
   );
 }
