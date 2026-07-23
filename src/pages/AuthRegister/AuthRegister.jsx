@@ -9,36 +9,44 @@ function AuthRegister() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
+    setError("");
 
     try {
-      const response = await api.post("/auth/register", {
+      const userData = {
         name,
         email,
         password,
-      });
+        role,
+      };
+
+      const response = await api.post("/auth-register", userData);
 
       alert(response.data.message);
 
       setName("");
       setEmail("");
       setPassword("");
+      setRole("student");
 
       navigate("/auth-login");
     } catch (error) {
-      console.error(error);
+      console.error("Registration Error:", error);
+      console.log(error.response);
 
-      if (error.response) {
-        alert(error.response.data.message);
-      } else {
-        alert("Unable to connect to server.");
-      }
+      const message =
+        error.response?.data?.message || "Registration failed";
+
+      setError(message);
+      alert(message);
     } finally {
       setLoading(false);
     }
@@ -73,6 +81,26 @@ function AuthRegister() {
           required
           minLength={6}
         />
+
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="student">Student</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        {error && (
+          <p
+            style={{
+              color: "red",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            {error}
+          </p>
+        )}
 
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
