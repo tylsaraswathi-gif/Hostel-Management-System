@@ -21,32 +21,32 @@ function AuthRegister() {
     setError("");
 
     try {
-      const userData = {
+      const response = await api.post("/auth/register", {
         name,
         email,
         password,
         role,
-      };
+      });
 
-      const response = await api.post("/auth-register", userData);
+      alert(response.data.message || "Registration Successful!");
 
-      alert(response.data.message);
-
+      // Clear form
       setName("");
       setEmail("");
       setPassword("");
       setRole("student");
 
+      // Redirect to Login page
       navigate("/auth-login");
+
     } catch (error) {
       console.error("Registration Error:", error);
-      console.log(error.response);
 
       const message =
-        error.response?.data?.message || "Registration failed";
+        error.response?.data?.message ||
+        "Registration Failed. Please try again.";
 
       setError(message);
-      alert(message);
     } finally {
       setLoading(false);
     }
@@ -78,8 +78,8 @@ function AuthRegister() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
           minLength={6}
+          required
         />
 
         <select
