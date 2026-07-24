@@ -24,23 +24,31 @@ function Login() {
         password,
       });
 
-      // Save logged in user
-      localStorage.setItem(
-        "loggedInUser",
-        JSON.stringify(response.data.user)
-      );
+      const { token, user, message } = response.data;
+
+      // Store token
+      localStorage.setItem("token", token);
+
+      // Store user
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Optional individual values
+      localStorage.setItem("userId", user.id);
+      localStorage.setItem("userName", user.name);
+      localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("role", user.role);
 
       localStorage.setItem("isLoggedIn", "true");
 
-      alert(response.data.message);
+      alert(message || "Login Successful");
 
       navigate("/dashboard");
-    } catch (error) {
-      const message =
-        error.response?.data?.message || "Login failed";
 
-      setError(message);
-      alert(message);
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || "Login Failed";
+
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -70,13 +78,16 @@ function Login() {
         <div className="show-password">
           <input
             type="checkbox"
+            id="showPassword"
             checked={showPassword}
             onChange={() => setShowPassword(!showPassword)}
           />
-          <label>Show Password</label>
+          <label htmlFor="showPassword">Show Password</label>
         </div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && (
+          <p className="error-message">{error}</p>
+        )}
 
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
@@ -84,7 +95,9 @@ function Login() {
 
         <p className="register-text">
           Don't have an account?{" "}
-          <Link to="/auth-register">Register</Link>
+          <Link to="/auth-register">
+            Register
+          </Link>
         </p>
       </form>
     </div>
